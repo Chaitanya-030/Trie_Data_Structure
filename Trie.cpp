@@ -17,8 +17,12 @@ struct Node {
         return links[ch - 'a'];
     }
 
-    bool setEnd() {
+    void setEnd() {
         flag = true;
+    }
+
+    bool isEnd() {
+        return flag;
     }
 };
 
@@ -41,10 +45,34 @@ class Trie {
                     node->put(word[i], new Node());
                 }
                 // get the node to which word[i] is linked to
-                node->get(word[i]);
+                node = node->get(word[i]);
             }
 
             node->setEnd();
+        }
+
+    // returns if the word is in the trie or not
+        bool search(string word) {
+            Node* node = root;
+            for(int i=0;i<word.size();i++) {
+                if(!node->containsKey(word[i])) {
+                    return false;
+                }
+                node = node->get(word[i]);
+            }
+            return node->isEnd();
+        }
+
+    // returns whether any of the word has this prefix or not
+        bool startswith(string prefix) {
+            Node* node = root;
+            for(int i=0;i<prefix.size();i++) {
+                if(!node->containsKey(prefix[i])) {
+                    return false;
+                }
+                node = node->get(prefix[i]);
+            }
+            return true;
         }
 
 };
