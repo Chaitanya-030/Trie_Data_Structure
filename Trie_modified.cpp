@@ -30,8 +30,16 @@ struct Node {
         cntEndWith--;
     }
     
-    void deletePrefix() {
+    void reducePrefix() {
         cntPrefix--;
+    }
+
+    int getEnd() {
+        return cntEndWith;
+    }
+
+    int getPrefix() {
+        return cntPrefix;
     }
 };
 
@@ -56,5 +64,45 @@ class Trie {
                 node->increasePrefix();
             }
             node->increaseEnd();
+        }
+
+        int countWordsEqualTo(string word) {
+            Node* node = root;
+            for(int i=0;i<word.size();i++) {
+                if(node->containsKey(word[i])) {
+                    node = node->get(word[i]);
+                }
+                else {
+                    return 0;
+                }
+            }
+            node->getEnd();
+        }
+
+        int countWordsStartingWith(string word) {
+            Node* node = root;
+            for(int i=0;i<word.size();i++) {
+                if(node->containsKey(word[i])) {
+                    node = node->get(word[i]);
+                }
+                else {
+                    return 0;
+                }
+            }
+            node->getPrefix();
+        }
+
+        void erase(string word) {
+            Node* node = root;
+            for(int i=0;i<word.size();i++) {
+                if(node->containsKey(word[i])) {
+                    node = node->get(word[i]);
+                    node->reducePrefix();
+                }
+                else {
+                    return;
+                }
+            }
+            node->deleteEnd();
         }
 };
